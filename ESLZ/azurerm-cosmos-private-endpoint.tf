@@ -1,32 +1,39 @@
 # All fields required; must be set in cosmos-pe.tfvars
 variable "cosmos_pe" {
-  description = "Settings for the Cosmos DB Private Endpoint."
+  description = "Settings for the Cosmos DB Private Endpoint (subnet looked up by name)."
   type = object({
-    rg_name   = string          # kept for flexibility, but we’ll prefer module.cosmos outputs
+    # Where to place the Private Endpoint NIC
+    rg_name   = string
     location  = string
-    pe_name   = string          # e.g., "cosmos-pe"
-    subnet_id = string          # full subnet ID for the PE NIC
-  })
+    pe_name   = string
 
-  # Optional sanity check on subnet_id
-  validation {
-    condition     = can(regex("^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/Microsoft\\.Network/virtualNetworks/[^/]+/subnets/[^/]+$", var.cosmos_pe.subnet_id))
-    error_message = "subnet_id must be a valid subnet resource ID."
-  }
+    # Subnet lookup (existing VNet/subnet; we do NOT create it)
+    vnet_rg_name = string
+    vnet_name    = string
+    subnet_name  = string
+  })
+}
+
+# Look up the existing subnet by names (Option B)
+data "azurerm_subnet" "pe" {
+  name                 = var.cosmos_pe.subnet_name
+  virtual_network_name = var.cosmos_pe.vnet_name
+  resource_group_name  = var.cosmos_pe.vnet_rg_name
 }
 
 module "cosmos_pe" {
   source     = "github.com/GoCHarrbra/terraform-azurerm-cosmos-private-endpoint.git?ref=v0.1.0"
-  depends_on = [module.cosmos]  # ensure Cosmos exists first
+  depends_on = [module.cosmos]  # ensure the Cosmos account exists first
 
-  # Prefer placement from foundation (module.cosmos), avoids drift vs tfvars
-  rg_name           = module.cosmos.rg_name
-  location          = module.cosmos.location
+  # Private Endpoint placement
+  rg_name   = var.cosmos_pe.rg_name
+  location  = var.cosmos_pe.location
+  pe_name   = var.cosmos_pe.pe_name
 
-  pe_name           = var.cosmos_pe.pe_name
-  subnet_id         = var.cosmos_pe.subnet_id
+  # Pass the resolved subnet ID from the data source
+  subnet_id = data.azurerm_subnet.pe.id
 
-  # Target Cosmos account from foundation output
+  # Target Cosmos account (from your Cosmos module)
   cosmos_account_id = module.cosmos.account_id
 }
 
