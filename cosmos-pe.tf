@@ -3,6 +3,7 @@ resource "azurerm_private_endpoint" "cosmos_sql" {
   location            = var.location
   resource_group_name = var.rg_name
   subnet_id           = var.subnet_id
+  tags                = var.tags
 
   private_service_connection {
     name                           = "${var.pe_name}-psc"
@@ -10,6 +11,5 @@ resource "azurerm_private_endpoint" "cosmos_sql" {
     subresource_names              = ["Sql"] # Cosmos SQL API
     is_manual_connection           = false
   }
-
   # No private_dns_zone_group here as Azure Policy attaches it automatically
 }

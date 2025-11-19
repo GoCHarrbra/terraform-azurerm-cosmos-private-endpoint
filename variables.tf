@@ -34,3 +34,9 @@ variable "cosmos_account_id" {
     error_message = "cosmos_account_id must be a valid Cosmos DB account resource ID."
   }
 }
+
+variable "tags" {
+  description = "Tags to apply to the Private Endpoint and related resources."
+  type        = map(string)
+  default     = {}
+}
