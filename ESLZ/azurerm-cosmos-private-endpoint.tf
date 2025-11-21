@@ -23,7 +23,7 @@ data "azurerm_subnet" "pe" {
 }
 
 module "cosmos_pe" {
-  source     = "github.com/GoCHarrbra/terraform-azurerm-cosmos-private-endpoint.git?ref=v0.3.0"
+  source     = "github.com/GoCHarrbra/terraform-azurerm-cosmos-private-endpoint.git?ref=v0.4.0"
   depends_on = [module.cosmos]  # ensure the Cosmos account exists first
 
   # Private Endpoint placement
