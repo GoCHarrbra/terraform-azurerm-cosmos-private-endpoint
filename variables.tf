@@ -13,6 +13,12 @@ variable "pe_name" {
   type        = string
 }
 
+#private service name
+variable "psc_name" {
+  description = "Private Service name."
+  type        = string
+}
+
 variable "subnet_id" {
   description = "Full resource ID of the subnet that hosts the Private Endpoint NIC."
   type        = string
@@ -25,7 +31,7 @@ variable "subnet_id" {
 }
 
 variable "cosmos_account_id" {
-  description = "Resource ID of the Cosmos DB account to connect to (e.g., module.cosmos.account_id)."
+  description = "Resource ID of the Cosmos DB account to connect to (e.g., module.cosmos.cosmos_account_id)."
   type        = string
 
   # Optional sanity check: looks like a Cosmos DB account ID
