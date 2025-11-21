@@ -23,7 +23,7 @@ data "azurerm_subnet" "pe" {
 }
 
 module "cosmos_pe" {
-  source     = "github.com/GoCHarrbra/terraform-azurerm-cosmos-private-endpoint.git?ref=v0.2.0"
+  source     = "github.com/GoCHarrbra/terraform-azurerm-cosmos-private-endpoint.git?ref=v0.3.0"
   depends_on = [module.cosmos]  # ensure the Cosmos account exists first
 
   # Private Endpoint placement
@@ -35,6 +35,7 @@ module "cosmos_pe" {
 
   # Target Cosmos account (from your Cosmos module)
   cosmos_account_id = module.cosmos.account_id
+  psc_name          = var.cosmos_pe.psc_name
 }
 
 # Pass through module outputs

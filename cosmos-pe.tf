@@ -6,7 +6,7 @@ resource "azurerm_private_endpoint" "cosmos_sql" {
   tags                = var.tags
 
   private_service_connection {
-    name                           = "${var.pe_name}-psc"
+    name                           = var.psc_name   # EXACT live value
     private_connection_resource_id = var.cosmos_account_id
     subresource_names              = ["Sql"] # Cosmos SQL API
     is_manual_connection           = false
