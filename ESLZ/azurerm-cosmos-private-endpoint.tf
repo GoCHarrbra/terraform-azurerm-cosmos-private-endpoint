@@ -33,8 +33,8 @@ module "cosmos_pe" {
   subnet_id = data.azurerm_subnet.pe.id
   tags      = var.cosmos_pe.tags
 
-  # Target Cosmos account (from your Cosmos module)
-  cosmos_account_id = module.cosmos.account_id
+  # Target Cosmos account (from your Cosmos module) otherwise use var.
+  cosmos_account_id = module.cosmos.cosmos_account_id
   psc_name          = var.cosmos_pe.psc_name
 }
 
