@@ -8,6 +8,7 @@ variable "cosmos_pe" {
     pe_name   = string
     tags      = map(string)
 
+    psc_name = string
     # Subnet lookup (existing VNet/subnet; we do NOT create it)
     vnet_rg_name = string
     vnet_name    = string
@@ -48,3 +49,4 @@ output "pe_name" {
   description = "Name of the created Private Endpoint."
   value       = module.cosmos_pe.pe_name
 }
+
