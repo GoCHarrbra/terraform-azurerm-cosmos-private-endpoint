@@ -4,6 +4,7 @@ resource "azurerm_private_endpoint" "cosmos_sql" {
   resource_group_name = var.rg_name
   subnet_id           = var.subnet_id
   tags                = var.tags
+  custom_network_interface_name = var.custom_network_interface_name
 
   private_service_connection {
     name                           = var.psc_name   # EXACT live value

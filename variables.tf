@@ -19,6 +19,12 @@ variable "psc_name" {
   type        = string
 }
 
+#custom_network_interface_name
+variable "custom_network_interface_name" {
+  description = "Nic Name."
+  type        = string
+}
+
 variable "subnet_id" {
   description = "Full resource ID of the subnet that hosts the Private Endpoint NIC."
   type        = string

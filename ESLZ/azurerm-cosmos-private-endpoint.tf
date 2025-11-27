@@ -13,6 +13,7 @@ variable "cosmos_pe" {
     vnet_rg_name = string
     vnet_name    = string
     subnet_name  = string
+    custom_network_interface_name = string
   })
 }
 
@@ -24,7 +25,7 @@ data "azurerm_subnet" "pe" {
 }
 
 module "cosmos_pe" {
-  source     = "github.com/GoCHarrbra/terraform-azurerm-cosmos-private-endpoint.git?ref=v0.4.0"
+  source     = "github.com/GoCHarrbra/terraform-azurerm-cosmos-private-endpoint.git?ref=v0.5.0"
   depends_on = [module.cosmos]  # ensure the Cosmos account exists first
 
   # Private Endpoint placement
@@ -37,6 +38,7 @@ module "cosmos_pe" {
   # Target Cosmos account (from your Cosmos module) otherwise use var.
   cosmos_account_id = module.cosmos.cosmos_account_id
   psc_name          = var.cosmos_pe.psc_name
+  custom_network_interface_name = var.custom_network_interface_name
 }
 
 # Pass through module outputs

@@ -17,7 +17,6 @@ cosmos_pe = {
   vnet_name    = "VNetName"
   subnet_name  = "SubnetNAME"
 
-  # NEW: exact PSC name from your output
   psc_name = "livepscname"
-
+  custom_network_interface_name = "livenicname"
 }
